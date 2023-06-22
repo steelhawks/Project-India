@@ -4,7 +4,8 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -19,14 +20,16 @@ public class Robot extends TimedRobot {
   private DifferentialDrive m_myRobot;
   private Joystick m_joystick;
 
-  private final WPI_TalonSRX m_leftMotor1 = new WPI_TalonSRX(0);
-  private final WPI_TalonSRX m_leftMotor2 = new WPI_TalonSRX(1);
-  private final WPI_TalonSRX m_leftMotor3 = new WPI_TalonSRX(2);
+  // Each line defines the spark connected to each motor
+  private final CANSparkMax m_leftMotor1 = new CANSparkMax(6, MotorType.kBrushless);
+  private final CANSparkMax m_leftMotor2 = new CANSparkMax(8, MotorType.kBrushless);
+  private final CANSparkMax m_leftMotor3 = new CANSparkMax(10, MotorType.kBrushless);
 
-  private final WPI_TalonSRX m_rightMotor1 = new WPI_TalonSRX(3);
-  private final WPI_TalonSRX m_rightMotor2 = new WPI_TalonSRX(4);
-  private final WPI_TalonSRX m_rightMotor3 = new WPI_TalonSRX(5);
+  private final CANSparkMax m_rightMotor1 = new CANSparkMax(1, MotorType.kBrushless);
+  private final CANSparkMax m_rightMotor2 = new CANSparkMax(7, MotorType.kBrushless);
+  private final CANSparkMax m_rightMotor3 = new CANSparkMax(20, MotorType.kBrushless);
 
+  // This groups the sparks together in left and right groups because all left and right wheels move at the same speed
   private final MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_leftMotor1, m_leftMotor2, m_leftMotor3);
   private final MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_rightMotor1, m_rightMotor2, m_rightMotor3);
 
@@ -43,6 +46,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    // Speed depends on the y axis of the joystick and turning depends on the rotation of the joystick
     m_myRobot.arcadeDrive(-m_joystick.getY(), m_joystick.getTwist() / 1.5, false);
   }
 }
