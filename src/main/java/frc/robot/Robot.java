@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
  * the code necessary to operate a robot with tank drive.
  */
 public class Robot extends TimedRobot {
-  private DifferentialDrive m_myRobot;
+  private DifferentialDrive diffDrive;
   private Joystick m_joystick;
 
   // Each line defines the spark connected to each motor
@@ -40,13 +41,24 @@ public class Robot extends TimedRobot {
     // gearbox is constructed, you might have to invert the left side instead.
     m_rightGroup.setInverted(true);
 
-    m_myRobot = new DifferentialDrive(m_leftGroup, m_rightGroup);
+    diffDrive = new DifferentialDrive(m_leftGroup, m_rightGroup);
     m_joystick = new Joystick(0);
+
+    configureMotors();
   }
 
   @Override
   public void teleopPeriodic() {
     // Speed depends on the y axis of the joystick and turning depends on the rotation of the joystick
-    m_myRobot.arcadeDrive(-m_joystick.getY(), m_joystick.getTwist() / 1.5, false);
+    diffDrive.arcadeDrive(-m_joystick.getY(), m_joystick.getTwist() / 1.5, false);
+  }
+
+  private void configureMotors() {
+    m_leftMotor1.setIdleMode(IdleMode.kCoast);
+    m_leftMotor2.setIdleMode(IdleMode.kCoast);
+    m_leftMotor3.setIdleMode(IdleMode.kCoast);
+    m_rightMotor1.setIdleMode(IdleMode.kCoast);
+    m_rightMotor2.setIdleMode(IdleMode.kCoast);
+    m_rightMotor3.setIdleMode(IdleMode.kCoast);
   }
 }
