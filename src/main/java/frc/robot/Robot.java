@@ -21,6 +21,9 @@ public class Robot extends TimedRobot {
   private DifferentialDrive diffDrive;
   private Joystick m_joystick;
 
+  private double speed = 0.5;
+  private double twist = 0.2;
+
   // Each line defines the spark connected to each motor
   private final CANSparkMax m_leftMotor1 = new CANSparkMax(6, MotorType.kBrushless);
   private final CANSparkMax m_leftMotor2 = new CANSparkMax(8, MotorType.kBrushless);
@@ -50,7 +53,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // Speed depends on the y axis of the joystick and turning depends on the rotation of the joystick
-    diffDrive.arcadeDrive(-m_joystick.getY(), m_joystick.getTwist() / 1.5, false);
+    diffDrive.arcadeDrive(-m_joystick.getY() * speed, m_joystick.getTwist() * twist, false);
   }
 
   private void configureMotors() {
